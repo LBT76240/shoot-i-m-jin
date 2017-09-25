@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class background_mover : MonoBehaviour {
 
-    public int speed = 1;
-	
-	// Update is called once per frame
-	void Update () {
-        gameObject.transform.position = gameObject.transform.position + Vector3.right * Time.deltaTime * speed;
-        if(gameObject.transform.position.x<-10) {
-            //print("reset");
-            Vector3 pos = gameObject.transform.position;
-            pos.x += 20.47f;
-            gameObject.transform.position = pos;
-        }
-            
+    public int scrollSpeed = 1;
+
+    public float tileSizeX;
+
+    private Vector3 startPosition;
+    private float oldPosition = 0f;
+
+    // Use this for initialization
+    void Start() {
+        startPosition = transform.position;
+    }
+
+    
+
+    // Update is called once per frame
+    void Update () {
+
+
+        float newPosition = Mathf.Repeat(Time.deltaTime * scrollSpeed + oldPosition, tileSizeX);
+        oldPosition = newPosition;
+        transform.position = startPosition + Vector3.left * newPosition;
     }
 }

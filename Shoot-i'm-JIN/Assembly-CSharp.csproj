@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\background_mover.cs" />
+     <Compile Include="Assets\Scripts\Destroy.cs" />
      <Compile Include="Assets\Scripts\player_mover.cs" />
      <Compile Include="Assets\Scripts\player_shoot.cs" />
      <Compile Include="Assets\Scripts\shoot_movement.cs" />
