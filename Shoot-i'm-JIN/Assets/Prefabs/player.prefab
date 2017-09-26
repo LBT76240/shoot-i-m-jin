@@ -135,6 +135,8 @@ MonoBehaviour:
     xmax: 10
     ymin: -9
     ymax: 9
+  timeBetweenDashLimit: 0.5
+  dashValue: 1
 --- !u!114 &114901439017923142
 MonoBehaviour:
   m_ObjectHideFlags: 1

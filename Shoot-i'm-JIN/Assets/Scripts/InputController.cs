@@ -16,6 +16,14 @@ public class InputController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (gameManager.isGameOn()) {
+
+            bool tapHorizontalUp = Input.GetButtonDown("Horizontal") && Input.GetAxisRaw("Horizontal") > 0;
+            bool tapHorizontalDown= Input.GetButtonDown("Horizontal") && Input.GetAxisRaw("Horizontal") < 0;
+            bool tapVerticalUp = Input.GetButtonDown("Vertical") && Input.GetAxisRaw("Vertical") > 0;
+            bool tapVerticalDown = Input.GetButtonDown("Vertical") && Input.GetAxisRaw("Vertical") < 0;
+
+
+
             float moveHorizontal = Input.GetAxis("Horizontal");
             float moveVertical = Input.GetAxis("Vertical");
 
@@ -26,6 +34,7 @@ public class InputController : MonoBehaviour {
 
 
             if (player != null) {
+                player.GetComponent<player_mover>().dash(tapHorizontalUp, tapHorizontalDown, tapVerticalUp, tapVerticalDown);
                 player.GetComponent<player_mover>().setMovement(moveHorizontal, moveVertical);
                 player.GetComponent<player_shoot>().setFire(fire);
                 player.GetComponent<player_shoot>().swapShot(swap);
