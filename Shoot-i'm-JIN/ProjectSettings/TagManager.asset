@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Background
+  - player_shoot
+  - ennemy_shoot
+  - Ennemy
+  - energy_slider
   layers:
   - Default
   - TransparentFX
