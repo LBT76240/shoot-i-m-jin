@@ -11,6 +11,14 @@ TagManager:
   - energy_slider
   - energy_slider_background
   - energy_slider_fill
+  - boss1
+  - tire_droit_selected
+  - tire_diagonal_selected
+  - tire_spirale_selected
+  - gameManager
+  - Life1
+  - Life2
+  - Life3
   layers:
   - Default
   - TransparentFX

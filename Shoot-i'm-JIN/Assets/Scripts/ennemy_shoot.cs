@@ -7,18 +7,23 @@ public class ennemy_shoot : MonoBehaviour {
     public GameObject shotspawn;
     public float waitFirst;
 
+    ennemy_mover ennemy_mover;
+
     public float waitBetween;
 
 	// Use this for initialization
 	void Start () {
         StartCoroutine(spawnShoot());
+        ennemy_mover = gameObject.GetComponent<ennemy_mover>();
     }
 
     IEnumerator spawnShoot() {
         yield return new WaitForSeconds(waitFirst);
         while (true) {
-
-            Instantiate(shoot, shotspawn.transform.position, Quaternion.identity);
+            if (!ennemy_mover.isDead()) {
+                Instantiate(shoot, shotspawn.transform.position, Quaternion.identity);
+                
+            }
             yield return new WaitForSeconds(waitBetween);
         }
 

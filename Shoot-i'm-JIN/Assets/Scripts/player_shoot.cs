@@ -9,10 +9,19 @@ public class player_shoot : MonoBehaviour {
     public GameObject shot2b;
     public GameObject shot3;
     public GameObject shotspawn;
+
+    public float costShot1;
+    public float costShot2;
+    public float costShot3;
+
     public float delayShoot;
     Slider slider;
     CanvasRenderer sliderBackground;
     CanvasRenderer sliderFill;
+    Image tire_droit_selected;
+    Image tire_diagonal_selected;
+    Image tire_spirale_selected;
+    player_mover player_Mover;
 
     bool fire = false;
 
@@ -26,10 +35,30 @@ public class player_shoot : MonoBehaviour {
     float timeSinceLastShoot = 0f;
 
     public void swapShot(bool swap) {
-        if (swap) {
-            selectedShot++;
-            if (selectedShot > 3) {
-                selectedShot = 1;
+        if (!player_Mover.isDead()) {
+            if (swap) {
+                selectedShot++;
+                if (selectedShot > 3) {
+                    selectedShot = 1;
+                }
+
+                switch (selectedShot) {
+                    case 1:
+                        tire_droit_selected.enabled = true;
+                        tire_diagonal_selected.enabled = false;
+                        tire_spirale_selected.enabled = false;
+                        break;
+                    case 2:
+                        tire_droit_selected.enabled = false;
+                        tire_diagonal_selected.enabled = true;
+                        tire_spirale_selected.enabled = false;
+                        break;
+                    case 3:
+                        tire_droit_selected.enabled = false;
+                        tire_diagonal_selected.enabled = false;
+                        tire_spirale_selected.enabled = true;
+                        break;
+                }
             }
         }
     }
@@ -44,10 +73,15 @@ public class player_shoot : MonoBehaviour {
         sliderBackground = GameObject.FindWithTag("energy_slider_background").GetComponent<CanvasRenderer>();
         sliderFill = GameObject.FindWithTag("energy_slider_fill").GetComponent<CanvasRenderer>();
 
+        tire_droit_selected = GameObject.FindWithTag("tire_droit_selected").GetComponent<Image>();
+        tire_diagonal_selected = GameObject.FindWithTag("tire_diagonal_selected").GetComponent<Image>();
+        tire_spirale_selected = GameObject.FindWithTag("tire_spirale_selected").GetComponent<Image>();
 
+        tire_droit_selected.enabled = true;
+        tire_diagonal_selected.enabled = false;
+        tire_spirale_selected.enabled = false;
 
-
-
+        player_Mover = gameObject.GetComponent<player_mover>();
     }
 
 
@@ -66,48 +100,50 @@ public class player_shoot : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        timeSinceLastShoot += Time.deltaTime;
+        if (!player_Mover.isDead()) {
+            timeSinceLastShoot += Time.deltaTime;
 
-        if(energy<100) {
-            if(canFire) {
-                energy += Time.deltaTime * energyPerSecond;
-            } else {
-                energy += Time.deltaTime * energyPerSecond*0.75f;
-            }
-            
-            if(energy>100) {
-                canFire = true;
-                sliderBackground.SetColor(Color.white);
-                sliderFill.SetColor(Color.white);
-            }
-        }
-
-
-        if (fire) {
-            if (timeSinceLastShoot > delayShoot) {
+            if (energy < 100 && timeSinceLastShoot > delayShoot) {
                 if (canFire) {
+                    energy += Time.deltaTime * energyPerSecond;
+                } else {
+                    energy += Time.deltaTime * energyPerSecond * 0.75f;
+                }
+
+                if (energy > 100) {
+                    canFire = true;
+                    sliderBackground.SetColor(Color.white);
+                    sliderFill.SetColor(Color.white);
+                }
+            }
+
+
+            if (fire) {
+                if (timeSinceLastShoot > delayShoot && canFire) {
+
                     switch (selectedShot) {
                         case 1:
                             Instantiate(shot1, shotspawn.transform.position, shotspawn.transform.rotation);
-                            decreaseEnergy(10);
+                            decreaseEnergy(costShot1);
                             break;
                         case 2:
-                            Instantiate(shot2a, shotspawn.transform.position, shotspawn.transform.rotation);
-                            Instantiate(shot2b, shotspawn.transform.position, shotspawn.transform.rotation);
-                            decreaseEnergy(20);
+                            Instantiate(shot2a, shotspawn.transform.position, shotspawn.transform.rotation).transform.Rotate(Vector3.forward * 45);
+                            Instantiate(shot2b, shotspawn.transform.position, shotspawn.transform.rotation).transform.Rotate(Vector3.forward * -45);
+                            decreaseEnergy(costShot2);
                             break;
                         default:
                             Instantiate(shot3, shotspawn.transform.position, shotspawn.transform.rotation);
-                            decreaseEnergy(15);
+                            decreaseEnergy(costShot3);
                             break;
                     }
+
+
+                    timeSinceLastShoot = 0;
                 }
-                
-                timeSinceLastShoot = 0;
             }
+
+
+            slider.value = energy;
         }
-
-
-        slider.value = energy;
     }
 }

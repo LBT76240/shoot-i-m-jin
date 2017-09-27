@@ -24,8 +24,8 @@ public class InputController : MonoBehaviour {
 
 
 
-            float moveHorizontal = Input.GetAxis("Horizontal");
-            float moveVertical = Input.GetAxis("Vertical");
+            float moveHorizontal = Input.GetAxisRaw("Horizontal");
+            float moveVertical = Input.GetAxisRaw("Vertical");
 
 
             bool fire = Input.GetButton("Fire1");
