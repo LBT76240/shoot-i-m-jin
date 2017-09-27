@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class boss1_ia : MonoBehaviour {
     public float speed;
@@ -11,6 +12,8 @@ public class boss1_ia : MonoBehaviour {
     public float waitShootPhase2;
     public float waitShootPhase3;
     public GameObject explosion;
+    public Slider slider;
+    public Image sliderFillImage;
     public Animator miniexplosionAnimator;
     private Animator explosionAnimator;
 
@@ -44,9 +47,19 @@ public class boss1_ia : MonoBehaviour {
         explosionAnimator.enabled = false;
         explosion.GetComponent<SpriteRenderer>().enabled=false;
         gameManager = GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>();
+        slider.maxValue = healthPhase1 + healthPhase2 + healthPhase3;
 
     }
 	
+    void updateSlider () {
+        slider.value = healthPhase1 + healthPhase2 + healthPhase3;
+        Color color = sliderFillImage.color;
+        color.r = (healthPhase1 + healthPhase2 + healthPhase3) / slider.maxValue;
+        color.g = (1 - (healthPhase1 + healthPhase2 + healthPhase3) / slider.maxValue);
+        sliderFillImage.color = color;
+        
+    }
+
     public void dealDamage(float damage,Vector3 pos) {
         if (!invulnerability) {
             if (!phase1ended) {
@@ -57,6 +70,9 @@ public class boss1_ia : MonoBehaviour {
                         healthPhase1 = 0;
                         switchPhase();
                     }
+
+                    updateSlider();
+
                 }
             } else if (!phase2ended) {
                 if (healthPhase2 > 0) {
@@ -66,6 +82,7 @@ public class boss1_ia : MonoBehaviour {
                         healthPhase2 = 0;
                         switchPhase();
                     }
+                    updateSlider();
                 }
             } else if (!phase3ended) {
                 if (healthPhase3 > 0) {
@@ -74,7 +91,9 @@ public class boss1_ia : MonoBehaviour {
                     if (healthPhase3 <= 0) {
                         healthPhase3 = 0;
                         switchPhase();
+                        
                     }
+                    updateSlider();
                 }
             }
         }
@@ -119,8 +138,9 @@ public class boss1_ia : MonoBehaviour {
             invulnerability = true;
             explosion.GetComponent<SpriteRenderer>().enabled = true;
             explosionAnimator.enabled = true;
-            
-            
+            sliderFillImage.enabled = false;
+
+
         }
     }
 
