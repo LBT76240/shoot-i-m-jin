@@ -24,7 +24,8 @@ GameObject:
   - component: {fileID: 114901439017923142}
   - component: {fileID: 50847183042100172}
   - component: {fileID: 60149906379296334}
-  m_Layer: 0
+  - component: {fileID: 114519605940796250}
+  m_Layer: 10
   m_Name: player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -40,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4706175269646252}
   - component: {fileID: 212619044664764110}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: playerShield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +58,7 @@ GameObject:
   - component: {fileID: 4141271663099306}
   - component: {fileID: 212760107832267882}
   - component: {fileID: 95435636374030760}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: explosionAnim_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +73,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4640087555677940}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: shotspawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,6 +221,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114519605940796250
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1042213505448858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6e2d8343549d5418df238e1c928f2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114703830718647226
 MonoBehaviour:
   m_ObjectHideFlags: 1

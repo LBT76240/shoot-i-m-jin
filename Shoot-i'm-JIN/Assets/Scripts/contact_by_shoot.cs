@@ -10,7 +10,7 @@ public class contact_by_shoot : MonoBehaviour {
         if (gameObject.CompareTag("ennemy_shoot")) {
             if (other.gameObject.CompareTag("Player")) {
                 if (!other.gameObject.GetComponent<player_mover>().isDead()) {
-                    other.gameObject.GetComponent<player_mover>().dealDamage(damage, gameObject.transform.position);
+                    other.gameObject.GetComponent<player_mover>().dealDamage(gameObject.transform.position);
                     Destroy(gameObject);
                 }
             }
@@ -19,7 +19,7 @@ public class contact_by_shoot : MonoBehaviour {
         if (gameObject.CompareTag("player_shoot")) {
             if (other.gameObject.CompareTag("Ennemy")) {
                 if (!other.gameObject.GetComponent<ennemy_mover>().isDead()) {
-                    other.gameObject.GetComponent<ennemy_mover>().dealDamage(damage, gameObject.transform.position);
+                    other.gameObject.GetComponent<ennemy_mover>().dealDamage(gameObject.transform.position);
                     Destroy(gameObject);
                 }
             }

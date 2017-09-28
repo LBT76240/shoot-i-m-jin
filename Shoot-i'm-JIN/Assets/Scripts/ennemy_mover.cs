@@ -25,7 +25,7 @@ public class ennemy_mover : MonoBehaviour {
         explosion.GetComponent<SpriteRenderer>().enabled = false;
 
     }
-    public void dealDamage(float damage, Vector3 pos) {
+    public void dealDamage(Vector3 pos) {
         if (!dead) {
             explosion.GetComponent<SpriteRenderer>().enabled = true;
             explosionAnimator.enabled = true;

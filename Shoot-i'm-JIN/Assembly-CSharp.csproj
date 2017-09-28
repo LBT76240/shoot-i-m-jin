@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\ennemy_shoot.cs" />
      <Compile Include="Assets\Scripts\gameManager.cs" />
      <Compile Include="Assets\Scripts\InputController.cs" />
+     <Compile Include="Assets\Scripts\player_contact.cs" />
      <Compile Include="Assets\Scripts\player_mover.cs" />
      <Compile Include="Assets\Scripts\player_shoot.cs" />
      <Compile Include="Assets\Scripts\shoot_movement.cs" />

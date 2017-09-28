@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 50713822785880204}
   - component: {fileID: 58555839296715364}
   - component: {fileID: 114739790472253156}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: shot_boss1
   m_TagString: ennemy_shoot
   m_Icon: {fileID: 0}

@@ -29,10 +29,10 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - player_shoot_layer
+  - ennemy_shoot_layer
+  - player
+  - ennemy
   - 
   - 
   - 

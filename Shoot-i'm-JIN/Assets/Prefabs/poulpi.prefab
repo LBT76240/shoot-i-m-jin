@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4654298480948908}
   - component: {fileID: 212510787762828080}
   - component: {fileID: 95711173086966764}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: explosionAnim_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4607734966603836}
   - component: {fileID: 331308459278021188}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: shotspawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 114250342690146822}
   - component: {fileID: 114362079539907594}
   - component: {fileID: 60818403440552238}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: poulpi
   m_TagString: Ennemy
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6cdafc5b961c048b1d25fb689b5402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 6
   explosion: {fileID: 1464033294865068}
 --- !u!114 &114362079539907594
 MonoBehaviour:

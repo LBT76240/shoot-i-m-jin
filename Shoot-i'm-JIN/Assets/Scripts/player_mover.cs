@@ -62,7 +62,7 @@ public class player_mover : MonoBehaviour {
 
     }
 
-    public void dealDamage (float damage, Vector3 pos) {
+    public void dealDamage (Vector3 pos) {
         if (!playerDead && !isInvulnerable && !isInvulnerableDash) {
             health -= 1;
             invulnerability = 0;
