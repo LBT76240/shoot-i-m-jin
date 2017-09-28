@@ -85,7 +85,7 @@ public class player_shoot : MonoBehaviour {
     }
 
 
-    void decreaseEnergy(float value) {
+    public void decreaseEnergy(float value) {
         energy -= value;
         if(energy<0) {
             energy = 0;
@@ -95,8 +95,10 @@ public class player_shoot : MonoBehaviour {
         }
     }
 
+    public bool energyAvailable () {
+        return canFire;
+    }
 
-    
 
     // Update is called once per frame
     void Update() {

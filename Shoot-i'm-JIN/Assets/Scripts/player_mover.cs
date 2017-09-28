@@ -21,20 +21,29 @@ public class player_mover : MonoBehaviour {
     int health;
     bool isInvulnerable;
     float invulnerability;
-    float timeBetweenInput;
+    public float timeDashed;
+    Vector2 dirDash;
     float timeBetweenDash = 0f;
     public float timeBetweenDashLimit;
     public float dashValue;
     bool waitDash = false;
+    bool isInvulnerableDash = false;
+    float invulnerabilityDash;
     bool playerDead = false;
     Image life1;
     Image life2;
     Image life3;
+    public SpriteRenderer playerShield;
+    Image dashImage;
+    float widthdashImage;
+    
 
-    LastTap lastTap = LastTap.None;
+
     void Start() {
         invulnerability = 0;
         isInvulnerable = false;
+        isInvulnerableDash = false;
+        invulnerabilityDash = 0;
         health = 3;
         rb = GetComponent<Rigidbody2D>();
         explosionAnimator = explosion.GetComponent<Animator>();
@@ -43,7 +52,10 @@ public class player_mover : MonoBehaviour {
         life1 = GameObject.FindWithTag("Life1").GetComponent<Image>();
         life2 = GameObject.FindWithTag("Life2").GetComponent<Image>();
         life3 = GameObject.FindWithTag("Life3").GetComponent<Image>();
-
+        dashImage = GameObject.FindWithTag("dashImage").GetComponent<Image>();
+        RectTransform rectTransform = dashImage.transform as RectTransform;
+        
+        widthdashImage = rectTransform.sizeDelta.x;
         life1.enabled = true;
         life2.enabled = true;
         life3.enabled = true;
@@ -51,7 +63,7 @@ public class player_mover : MonoBehaviour {
     }
 
     public void dealDamage (float damage, Vector3 pos) {
-        if (!playerDead && !isInvulnerable) {
+        if (!playerDead && !isInvulnerable && !isInvulnerableDash) {
             health -= 1;
             invulnerability = 0;
             isInvulnerable = true;
@@ -90,92 +102,23 @@ public class player_mover : MonoBehaviour {
     public bool isDead() {
         return playerDead;
     }
-
-    public void dash(bool tapHorizontalUp, bool tapHorizontalDown, bool tapVerticalUp, bool tapVerticalDown) {
-        if (!playerDead) {
-            if (tapHorizontalUp) {
-                if (!waitDash) {
-                    if (lastTap == LastTap.HorizontalUp) {
-                        if (timeBetweenInput < 1f) {
-                            gameObject.transform.position = rb.position + Vector2.right * dashValue;
-                            waitDash = true;
-                            timeBetweenDash = 0f;
-                            lastTap = LastTap.None;
-                        } else {
-                            //print("DashHP Too Slow");
-                            timeBetweenInput = 0f;
-                        }
-                    } else {
-                        //print("NewDashHP");
-                        lastTap = LastTap.HorizontalUp;
-                        timeBetweenInput = 0f;
-                    }
-                }
-            }
-
-
-            if (tapHorizontalDown) {
-                if (!waitDash) {
-                    if (lastTap == LastTap.HorizontalDown) {
-                        if (timeBetweenInput < 1f) {
-                            gameObject.transform.position = rb.position + Vector2.right * -dashValue;
-                            waitDash = true;
-                            timeBetweenDash = 0f;
-                            lastTap = LastTap.None;
-                        } else {
-                            //print("DashHN Too Slow");
-                            timeBetweenInput = 0f;
-                        }
-                    } else {
-                        //print("NewDashHN");
-                        lastTap = LastTap.HorizontalDown;
-                        timeBetweenInput = 0f;
-                    }
-                }
-            }
-
-            if (tapVerticalUp) {
-                if (!waitDash) {
-                    if (lastTap == LastTap.VerticalUp) {
-                        if (timeBetweenInput < 1f) {
-                            gameObject.transform.position = rb.position + Vector2.up * dashValue;
-                            waitDash = true;
-                            timeBetweenDash = 0f;
-                            lastTap = LastTap.None;
-                        } else {
-                            //print("DashVP Too Slow");
-                            timeBetweenInput = 0f;
-                        }
-                    } else {
-                        //print("NewDashVP");
-                        lastTap = LastTap.VerticalUp;
-                        timeBetweenInput = 0f;
-                    }
-                }
-            }
-
-            if (tapVerticalDown) {
-                if (!waitDash) {
-                    if (lastTap == LastTap.VerticalDown) {
-                        if (timeBetweenInput < 1f) {
-                            gameObject.transform.position = rb.position + Vector2.down * dashValue;
-                            waitDash = true;
-                            timeBetweenDash = 0f;
-                            lastTap = LastTap.None;
-                        } else {
-                            //print("DashVN Too Slow");
-                            timeBetweenInput = 0f;
-                        }
-                    } else {
-                        //print("NewDashVN");
-                        lastTap = LastTap.VerticalDown;
-                        timeBetweenInput = 0f;
-                    }
-                }
+    
+    public void dash(Vector2 dir) {
+        if (!waitDash) {
+            if (gameObject.GetComponent<player_shoot>().energyAvailable()) {
+                gameObject.GetComponent<player_shoot>().decreaseEnergy(20);
+                dirDash = dir;
+                waitDash = true;
+                timeBetweenDash = 0f;
+                isInvulnerableDash = true;
+                invulnerabilityDash = 0;
+                RectTransform rectTransform = dashImage.transform as RectTransform;
+                rectTransform.sizeDelta = new Vector2(0, rectTransform.sizeDelta.y);
+   
             }
         }
-
     }
+   
     public void setMovement(float mHorizontal, float mVertical) {
         moveHorizontal = mHorizontal;
         moveVertical = mVertical;
@@ -211,7 +154,7 @@ public class player_mover : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
         if (!playerDead) {
-            timeBetweenInput += Time.deltaTime;
+            
             invulnerability += Time.deltaTime;
 
             if(invulnerability>2f) {
@@ -220,6 +163,7 @@ public class player_mover : MonoBehaviour {
 
                 newColor.a = 1;
                 gameObject.GetComponent<SpriteRenderer>().color = newColor;
+
             } else {
                 if (isInvulnerable) {
                     Color newColor = gameObject.GetComponent<SpriteRenderer>().color;
@@ -227,14 +171,89 @@ public class player_mover : MonoBehaviour {
                     newColor.a = Mathf.Repeat(invulnerability * 5, 1);
                     gameObject.GetComponent<SpriteRenderer>().color = newColor;
                 }
+            }
+
+            invulnerabilityDash += Time.deltaTime;
+
+            if (invulnerabilityDash > 1f) {
+                isInvulnerableDash = false;
+
+                Color newColor = playerShield.color;
+
+                newColor.a = 0;
+                playerShield.color = newColor;
+            } else {
+                if (isInvulnerableDash) {
+                    if (invulnerabilityDash < 0.1f) {
+                        Color newColor = playerShield.color;
+
+                        newColor.a = 10* invulnerabilityDash;
+                        playerShield.color = newColor;
+                    } else if(invulnerabilityDash > 0.9f) {
+                        Color newColor = playerShield.color;
+
+                        newColor.a = (10- 10*invulnerabilityDash);
+                        playerShield.color = newColor;
+                    } else {
+                        Color newColor = playerShield.color;
+
+                        newColor.a = 1;
+                        playerShield.color = newColor;
+                    }
+                } 
 
             }
 
 
             if (waitDash) {
                 timeBetweenDash += Time.deltaTime;
+
+                
+
+                if (timeBetweenDash < timeDashed) {
+                    gameObject.transform.position = rb.position + dirDash * dashValue * Time.deltaTime; 
+                }
+
+
+                if (invulnerabilityDash < 0.1f) {
+                    Color newColor = playerShield.color;
+
+                    newColor.a = 10 * invulnerabilityDash;
+                    playerShield.color = newColor;
+                } else if (invulnerabilityDash > 0.9f) {
+                    Color newColor = playerShield.color;
+
+                    newColor.a = (10 - 10 * invulnerabilityDash);
+                    playerShield.color = newColor;
+                } else {
+                    Color newColor = playerShield.color;
+
+                    newColor.a = 1;
+                    playerShield.color = newColor;
+                }
+                RectTransform rectTransform = dashImage.transform as RectTransform;
+                rectTransform.sizeDelta = new Vector2((widthdashImage * timeBetweenDash) / timeBetweenDashLimit, rectTransform.sizeDelta.y);
+
                 if (timeBetweenDash > timeBetweenDashLimit) {
+                    RectTransform rectTransform2 = dashImage.transform as RectTransform;
+                    rectTransform2.sizeDelta = new Vector2(widthdashImage, rectTransform2.sizeDelta.y);
+                    Color newColor = playerShield.color;
+
+                    newColor.a = 0;
+                    playerShield.color = newColor;
                     waitDash = false;
+                } else if (timeBetweenDash > timeBetweenDashLimit - 0.1f) {
+                    Color newColor = playerShield.color;
+
+                    newColor.a = 1-(10 * (timeBetweenDashLimit - timeBetweenDash));
+                    playerShield.color = newColor;
+
+
+                } else if (timeBetweenDash > timeBetweenDashLimit - 0.2f) {
+                    Color newColor = playerShield.color;
+
+                    newColor.a = 10*(timeBetweenDashLimit-timeBetweenDash -0.1f);
+                    playerShield.color = newColor;
                 }
             }
 

@@ -19,6 +19,7 @@ TagManager:
   - Life1
   - Life2
   - Life3
+  - dashImage
   layers:
   - Default
   - TransparentFX
