@@ -30,7 +30,7 @@ public class ennemy_shoot : MonoBehaviour {
         while (true) {
             if (!ennemy_mover.isDead()) {
 
-                //Instantiate(shoot, shotspawn.transform.position, Quaternion.identity);
+                
                 bulletFactory.getBullet(BulletType.ennemy, shotspawn.transform.position);
             }
             yield return new WaitForSeconds(waitBetween);

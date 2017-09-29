@@ -5,7 +5,7 @@ using UnityEngine;
 public class InputController : MonoBehaviour {
 
     public gameManager gameManager;
-    //public bool dashButton;
+    
     GameObject player = null;
     LastTap lastTap = LastTap.None;
     float timeBetweenInput;
@@ -27,11 +27,11 @@ public class InputController : MonoBehaviour {
 
                         lastTap = LastTap.None;
                     } else {
-                        //print("DashHP Too Slow");
+                        
                         timeBetweenInput = 0f;
                     }
                 } else {
-                    //print("NewDashHP");
+                    
                     lastTap = LastTap.HorizontalUp;
                     timeBetweenInput = 0f;
                 }
@@ -47,11 +47,11 @@ public class InputController : MonoBehaviour {
 
                         lastTap = LastTap.None;
                     } else {
-                        //print("DashHN Too Slow");
+                        
                         timeBetweenInput = 0f;
                     }
                 } else {
-                    //print("NewDashHN");
+                    
                     lastTap = LastTap.HorizontalDown;
                     timeBetweenInput = 0f;
                 }
@@ -66,11 +66,11 @@ public class InputController : MonoBehaviour {
 
                         lastTap = LastTap.None;
                     } else {
-                        //print("DashVP Too Slow");
+                        
                         timeBetweenInput = 0f;
                     }
                 } else {
-                    //print("NewDashVP");
+                    
                     lastTap = LastTap.VerticalUp;
                     timeBetweenInput = 0f;
                 }
@@ -85,11 +85,11 @@ public class InputController : MonoBehaviour {
 
                         lastTap = LastTap.None;
                     } else {
-                        //print("DashVN Too Slow");
+                        
                         timeBetweenInput = 0f;
                     }
                 } else {
-                    //print("NewDashVN");
+                    
                     lastTap = LastTap.VerticalDown;
                     timeBetweenInput = 0f;
                 }
@@ -147,7 +147,7 @@ public class InputController : MonoBehaviour {
 
         if (player != null) {
             tryDash(tapHorizontalUp, tapHorizontalDown, tapVerticalUp, tapVerticalDown, isFire3Down, moveHorizontal, moveVertical);
-            //player.GetComponent<player_mover>().dash(tapHorizontalUp, tapHorizontalDown, tapVerticalUp, tapVerticalDown);
+            
             player.GetComponent<player_mover>().setMovement(moveHorizontal, moveVertical);
             player.GetComponent<player_shoot>().setFire(fire);
             player.GetComponent<player_shoot>().swapShot(swap);

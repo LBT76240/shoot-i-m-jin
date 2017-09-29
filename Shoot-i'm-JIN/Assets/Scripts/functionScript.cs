@@ -10,10 +10,10 @@ public class functionScript : MonoBehaviour {
     public GameObject optionCanvas;
     public GameObject levelsCanvas;
     public Text dashButtonText;
-    //bool dashButton;
+    
 
     public void ChangeToScene(int sceneToChangeTo) {
-        //gameObject.GetComponent<config>().setDashButton(dashButton);
+        
 
         SceneManager.LoadScene(sceneToChangeTo);
         

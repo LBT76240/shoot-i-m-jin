@@ -27,7 +27,7 @@ public class contact_by_shoot : MonoBehaviour {
 
                         recycleBullet();
 
-                        //Destroy(gameObject);
+                       
                     }
                 }
             }
@@ -40,7 +40,7 @@ public class contact_by_shoot : MonoBehaviour {
                         gameObject.SetActive(false);
                         
                         recycleBullet();
-                        //Destroy(gameObject);
+                        
                     }
                 }
                 if (other.gameObject.CompareTag("boss1")) {
@@ -49,7 +49,7 @@ public class contact_by_shoot : MonoBehaviour {
                     gameObject.SetActive(false);
                     
                     recycleBullet();
-                    //Destroy(gameObject);
+                    
                 }
             }
         }

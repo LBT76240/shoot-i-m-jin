@@ -138,11 +138,11 @@ public class bulletFactory : MonoBehaviour {
         
         switch (bulletType) {
             case BulletType.ennemy:
-                //print("BulletEnnemyRecycled");
+                
                 listOfbulletEnnemy.Add(bullet);
                 break;
             case BulletType.boss:
-                //print("BulletBossRecycled");
+                
                 listOfbulletBoss.Add(bullet);
                 
                 break;
@@ -150,21 +150,21 @@ public class bulletFactory : MonoBehaviour {
                 
                 listOfbulletPlayer1.Add(bullet);
                 
-                //print(bullet!=null);
+                
                 
                 break;
             case BulletType.player2a:
-                //print("BulletPlayer2aRecycled");
+                
                 listOfbulletPlayer2a.Add(bullet);
                
                 break;
             case BulletType.player2b:
-                //print("BulletPlayer2bRecycled");
+                
                 listOfbulletPlayer2b.Add(bullet);
                 
                 break;
             case BulletType.player3:
-                //print("BulletPlayer3Recycled");
+                
                 listOfbulletPlayer3.Add(bullet);
                 
                 break;
