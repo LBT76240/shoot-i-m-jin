@@ -13,10 +13,10 @@ public class functionScript : MonoBehaviour {
     
 
     public void ChangeToScene(int sceneToChangeTo) {
-        
 
-        SceneManager.LoadScene(sceneToChangeTo);
         
+        SceneManager.LoadScene(sceneToChangeTo);
+        //SceneManager.UnloadSceneAsync(sceneToChangeTo);
     }
 
     

@@ -24,6 +24,7 @@ TagManager:
   - InputController
   - BulletFactory
   - EnnemyFactory
+  - LevelConf
   layers:
   - Default
   - TransparentFX

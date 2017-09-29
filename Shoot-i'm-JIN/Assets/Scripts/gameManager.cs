@@ -26,9 +26,13 @@ public class gameManager : MonoBehaviour {
     public float timeSpawnEnnemy;
     float timeSpawn;
     public ennemyFactory ennemyFactory;
+    int currentLvl;
+    
+    configClass newconfigClass;
+    bool configLoaded;
+    bool isVictory;
     public TextAsset textAsset;
-
-
+    List<string> listOfXMLLevel;
     public Vector3 getSpawnEnnemyPosition() {
         Vector3 newPosition = new Vector3(spawnValues.x, Random.Range(-spawnValues.y, spawnValues.y), spawnValues.z);
 
@@ -38,14 +42,40 @@ public class gameManager : MonoBehaviour {
         return GameIsOn;
     }
 
+    private void reset() {
+        isVictory = false;
+        GameIsOn = true;
+        ui.SetActive(true);
+        gameOverui.SetActive(false);
+        
+
+        
+        
+        
+        firstPhasedEnded = false;
+        time = 0;
+        timeSpawn = 0;
+        timeOver = 0;
+
+    }
+
     public void endGame(bool isVictory) {
         ui.SetActive(false);
-
+        this.isVictory = isVictory;
         GameObject[] listOfEnnemy = GameObject.FindGameObjectsWithTag("Ennemy");
 
         for (int i = 0; i < listOfEnnemy.Length; i++) {
+            if (isVictory && (currentLvl!= listOfXMLLevel.Count-1)) {
+                if (listOfEnnemy[i].activeSelf) {
+                    listOfEnnemy[i].SetActive(false);
+                    GameObject.FindGameObjectWithTag("EnnemyFactory").GetComponent<ennemyFactory>().addNonUsedEnnemy(listOfEnnemy[i]);
+                }
+            } else {
+                listOfEnnemy[i].SetActive(false);
+            }
+
             
-            Destroy(listOfEnnemy[i]);
+            
             
         }
 
@@ -53,7 +83,7 @@ public class gameManager : MonoBehaviour {
 
         for (int i = 0; i < listOfBoss1.Length; i++) {
 
-            Destroy(listOfBoss1[i]);
+            listOfBoss1[i].SetActive(false);
 
         }
 
@@ -61,35 +91,55 @@ public class gameManager : MonoBehaviour {
 
         for (int i = 0; i < listOfPowerUp.Length; i++) {
 
-            Destroy(listOfPowerUp[i]);
+            listOfPowerUp[i].SetActive(false);
 
         }
 
         GameObject[] listOfPlayerBullet = GameObject.FindGameObjectsWithTag("player_shoot");
 
         for (int i = 0; i < listOfPlayerBullet.Length; i++) {
+            if (isVictory && (currentLvl != listOfXMLLevel.Count - 1)) {
+                if (listOfPlayerBullet[i].activeSelf) {
+                    listOfPlayerBullet[i].SetActive(false);
+                    listOfPlayerBullet[i].GetComponent<contact_by_shoot>().recycleBullet();
+                }
+            } else {
+                listOfPlayerBullet[i].SetActive(false);
+            }
 
-            Destroy(listOfPlayerBullet[i]);
 
         }
         GameObject[] listOfEnnemyBullet = GameObject.FindGameObjectsWithTag("ennemy_shoot");
 
         for (int i = 0; i < listOfEnnemyBullet.Length; i++) {
+            if (isVictory && (currentLvl != listOfXMLLevel.Count - 1)) {
+                if (listOfEnnemyBullet[i].activeSelf) {
+                    listOfEnnemyBullet[i].SetActive(false);
+                    listOfEnnemyBullet[i].GetComponent<contact_by_shoot>().recycleBullet();
+                }
+            } else {
+                listOfEnnemyBullet[i].SetActive(false);
+            }
 
-            Destroy(listOfEnnemyBullet[i]);
+
 
         }
+
 
         GameObject[] listOfPlayer = GameObject.FindGameObjectsWithTag("Player");
 
         for (int i = 0; i < listOfPlayer.Length; i++) {
-
-            Destroy(listOfPlayer[i]);
+            if (currentLvl == listOfXMLLevel.Count - 1) {
+                listOfPlayer[i].SetActive(false);
+            }
 
         }
+
         if (isVictory) {
             gameOverText.text = "";
+            victoryText.text = "\nVictory";
         } else {
+            gameOverText.text = "Game Over";
             victoryText.text = "";
         }
         string newscorestring = "Score : " + score;
@@ -112,51 +162,42 @@ public class gameManager : MonoBehaviour {
     }
 
     void Start() {
+        isVictory = false;
         GameIsOn = true;
         ui.SetActive(true);
         gameOverui.SetActive(false);
         Instantiate(player, Vector3.zero, Quaternion.identity);
-        
-        
+
+        currentLvl = 0;
         score = 0;
         updateScoreText();
         firstPhasedEnded = false;
 
+        configLoaded = false;
+        try {
+            listOfXMLLevel = XmlHelpers.DeserializeDatabaseFromXML<string>(textAsset);
+        } catch (System.Exception exception) {
+            Debug.LogError("Pas de fichier de conf general" + exception);
+        }
 
+        if(listOfXMLLevel.Count==0) {
+            throw new System.Exception("Pas de niveau");
+        } 
 
         try {
-            configClass newconfigClass = XmlHelpers.DeserializeFromXML<configClass>(textAsset);
+            newconfigClass = XmlHelpers.DeserializeFromXML<configClass>(listOfXMLLevel[currentLvl]);
             timeOverLimit = newconfigClass.timeOverLimit;
             timePreBoss= newconfigClass.timePreBoss;
             timeSpawnEnnemy= newconfigClass.timeSpawnEnnemy;
+            configLoaded = true;
             Debug.Log("Fichier de conf chargé");
         } catch (System.Exception exception) {
             Debug.LogError("Pas de fichier de conf" + exception);
+            
         }
         
 
-        /*
-        configClass newconfigClass = new configClass();
-        newconfigClass.timeOverLimit = 0;
-        newconfigClass.timePreBoss = 0; 
-        newconfigClass.timeSpawnEnnemy=0;
-
-        newconfigClass.speed=0;
-        newconfigClass.zoneWait1X=0;
-        newconfigClass.zoneWait2Y=0;
-        newconfigClass.zoneWait3Y=0;
-        newconfigClass.waitShootPhase1=0;
-        newconfigClass.waitShootPhase2=0;
-        newconfigClass.waitShootPhase3=0;
-        newconfigClass.scorePhase1 = 0;
-        newconfigClass.scorePhase2 = 0;
-        newconfigClass.scorePhase3 = 0;
-        newconfigClass.healthPhase1 = 0;
-        newconfigClass.healthPhase2 = 0;
-        newconfigClass.healthPhase3 = 0;
-
-        XmlHelpers.SerializeToXML<configClass>("config.xml",newconfigClass);
-        print("XMLCreated");*/
+        
     }
 
     void Update() {
@@ -167,7 +208,10 @@ public class gameManager : MonoBehaviour {
                 firstPhasedEnded = true;
                 Vector3 pos = Vector3.zero;
                 pos.x = 30;
-                Instantiate(boss1, pos, Quaternion.identity);
+                GameObject newBoss = Instantiate(boss1, pos, Quaternion.identity);
+                if (configLoaded) {
+                    newBoss.GetComponentInChildren<boss1_ia>().InitWithConf(newconfigClass);
+                }
             } else {
                 if(timeSpawn>timeSpawnEnnemy) {
 
@@ -185,7 +229,25 @@ public class gameManager : MonoBehaviour {
             timeOver += Time.deltaTime;
 
             if(timeOver>timeOverLimit) {
-                SceneManager.LoadScene(0);
+                if(isVictory && (currentLvl != listOfXMLLevel.Count - 1)) {
+                    currentLvl++;
+                    try {
+                        newconfigClass = XmlHelpers.DeserializeFromXML<configClass>(listOfXMLLevel[currentLvl]);
+                        timeOverLimit = newconfigClass.timeOverLimit;
+                        timePreBoss = newconfigClass.timePreBoss;
+                        timeSpawnEnnemy = newconfigClass.timeSpawnEnnemy;
+                        configLoaded = true;
+                        Debug.Log("Fichier de conf chargé");
+                    } catch (System.Exception exception) {
+                        Debug.LogError("Pas de fichier de conf" + exception);
+
+                    }
+                    reset();
+                } else {
+                    SceneManager.LoadScene(0);
+                }
+                
+
             }
 
             

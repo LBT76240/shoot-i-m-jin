@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <timeOverLimit>10</timeOverLimit>
+  <timePreBoss>30</timePreBoss>
+  <timeSpawnEnnemy>0.5</timeSpawnEnnemy>
+  <speed>3</speed>
+  <zoneWait1X>16</zoneWait1X>
+  <zoneWait2Y>5.5</zoneWait2Y>
+  <zoneWait3Y>0</zoneWait3Y>
+  <waitShootPhase1>0.2</waitShootPhase1>
+  <waitShootPhase2>1</waitShootPhase2>
+  <waitShootPhase3>0.1</waitShootPhase3>
+  <scorePhase1>2000</scorePhase1>
+  <scorePhase2>3000</scorePhase2>
+  <scorePhase3>5000</scorePhase3>
+  <healthPhase1>1000</healthPhase1>
+  <healthPhase2>1000</healthPhase2>
+  <healthPhase3>1000</healthPhase3>
+</configClass>

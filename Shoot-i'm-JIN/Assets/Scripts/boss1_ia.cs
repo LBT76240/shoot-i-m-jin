@@ -55,29 +55,29 @@ public class boss1_ia : MonoBehaviour {
     bulletFactory bulletFactory;
     ennemyFactory ennemyFactory;
 
-    public TextAsset textAsset;
+    //public TextAsset textAsset;
+
+
+    public void InitWithConf(configClass newconfigClass) {
+        speed = newconfigClass.speed;
+        zoneWait1X = newconfigClass.zoneWait1X;
+        zoneWait2Y = newconfigClass.zoneWait2Y;
+        zoneWait3Y = newconfigClass.zoneWait3Y;
+        waitShootPhase1 = newconfigClass.waitShootPhase1;
+        waitShootPhase2 = newconfigClass.waitShootPhase2;
+        waitShootPhase3 = newconfigClass.waitShootPhase3;
+        scorePhase1 = newconfigClass.scorePhase1;
+        scorePhase2 = newconfigClass.scorePhase2;
+        scorePhase3 = newconfigClass.scorePhase3;
+        healthPhase1 = newconfigClass.healthPhase1;
+        healthPhase2 = newconfigClass.healthPhase2;
+        healthPhase3 = newconfigClass.healthPhase3;
+        Debug.Log("Fichier de conf chargé");
+    }
 
     // Use this for initialization
     void Start () {
-        try {
-            configClass newconfigClass = XmlHelpers.DeserializeFromXML<configClass>(textAsset);
-            speed=newconfigClass.speed;
-            zoneWait1X=newconfigClass.zoneWait1X;
-            zoneWait2Y=newconfigClass.zoneWait2Y;
-            zoneWait3Y=newconfigClass.zoneWait3Y;
-            waitShootPhase1=newconfigClass.waitShootPhase1;
-            waitShootPhase2 = newconfigClass.waitShootPhase2;
-            waitShootPhase3=newconfigClass.waitShootPhase3;
-            scorePhase1=newconfigClass.scorePhase1;
-            scorePhase2=newconfigClass.scorePhase2;
-            scorePhase3=newconfigClass.scorePhase3;
-            healthPhase1=newconfigClass.healthPhase1;
-            healthPhase2=newconfigClass.healthPhase2;
-            healthPhase3=newconfigClass.healthPhase3;
-            Debug.Log("Fichier de conf chargé");
-        } catch (System.Exception exception) {
-            Debug.LogError("Pas de fichier de conf" + exception);
-        }
+        
 
         if (cheat) {
             speed = 100;

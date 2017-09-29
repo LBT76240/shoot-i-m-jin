@@ -39,6 +39,31 @@ public class XmlHelpers
 
         return default(T);
     }
+    /// <summary>
+    /// Create a C# object from a XML text asset.
+    /// </summary>
+    /// <typeparam name="T">The type of object you want to create.</typeparam>
+    /// <param name="textAsset">The XML text asset where the object is serialized.</param>
+    /// <returns>The deserialized C# object.</returns>
+    public static T DeserializeFromXML<T>(string path) {
+        if (string.IsNullOrEmpty(path)) {
+            Debug.LogError("A");
+            throw new ArgumentNullException("path");
+        }
+
+        try {
+            using (StreamReader stream = new StreamReader(path)) {
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
+                T data = (T)serializer.Deserialize(stream);
+                return data;
+            }
+        } catch (Exception exception) {
+            Debug.LogError("Asset of type '" + typeof(T) + "' failed to be deserialized. The following exception was raised:\n " + exception.Message);
+        }
+
+        return default(T);
+    }
+
 
     /// <summary>
     /// Create a database from a XML text asset.

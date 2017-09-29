@@ -39,10 +39,11 @@ public class player_mover : MonoBehaviour {
     bool isInvulnerableShield = false;
     float invulnerabilityShield = 0f;
     float invulnerabilityShieldDuration = 0f;
-
+    bool gameEnded = false;
 
 
     void Start() {
+        gameEnded = false;
         invulnerability = 0;
         isInvulnerable = false;
         isInvulnerableDash = false;
@@ -325,8 +326,11 @@ public class player_mover : MonoBehaviour {
             );
         } else {
             if (explosion.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f) {
-                GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>().endGame(false);
-                GameObject.Destroy(gameObject);
+                if (!gameEnded) {
+                    GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>().endGame(false);
+                    GameObject.Destroy(gameObject);
+                    gameEnded = true;
+                }
             } else if (explosion.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.3f) {
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
             }
