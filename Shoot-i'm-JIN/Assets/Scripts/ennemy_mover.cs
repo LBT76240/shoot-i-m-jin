@@ -26,15 +26,7 @@ public class ennemy_mover : MonoBehaviour {
 
 
     void Start() {
-        speed = Random.Range(minspeed, maxspeed);
-        
-        startY = gameObject.transform.position.y;
-        if(Random.Range(0, 100) > 50) {
-            zigzag = true;
-        }
-        explosionAnimator = explosion.GetComponent<Animator>();
-        explosionAnimator.enabled = false;
-        explosion.GetComponent<SpriteRenderer>().enabled = false;
+        reset();
 
     }
     public void dealDamage(float damage, Vector3 pos) {
@@ -54,6 +46,18 @@ public class ennemy_mover : MonoBehaviour {
             
         }
 
+    }
+
+    public void reset() {
+        speed = Random.Range(minspeed, maxspeed);
+
+        startY = gameObject.transform.position.y;
+        if (Random.Range(0, 100) > 50) {
+            zigzag = true;
+        }
+        explosionAnimator = explosion.GetComponent<Animator>();
+        explosionAnimator.enabled = false;
+        explosion.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     public void die() {
@@ -108,7 +112,9 @@ public class ennemy_mover : MonoBehaviour {
             gameObject.transform.position = gameObject.transform.position + movement;
         } else {
             if (explosion.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f) {
-                GameObject.Destroy(gameObject);
+                gameObject.SetActive(false);
+                GameObject.FindGameObjectWithTag("EnnemyFactory").GetComponent<ennemyFactory>().addNonUsedEnnemy(gameObject);
+                //GameObject.Destroy(gameObject);
                 
             } else if (explosion.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.3f) {
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;

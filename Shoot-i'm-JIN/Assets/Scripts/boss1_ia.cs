@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class boss1_ia : MonoBehaviour {
+    
     public bool cheat;
     public float speed;
     public float zoneWait1X;
@@ -29,7 +30,7 @@ public class boss1_ia : MonoBehaviour {
     public GameObject shotspawn5;
     public GameObject shoot;
     public GameObject ennemy;
-    private gameManager gameManager;
+    //private gameManager gameManager;
 
     bool phase1ended = false;
     bool prephase2ended = false;
@@ -52,6 +53,7 @@ public class boss1_ia : MonoBehaviour {
     bool powerUpPoped;
 
     bulletFactory bulletFactory;
+    ennemyFactory ennemyFactory;
 
     // Use this for initialization
     void Start () {
@@ -67,10 +69,11 @@ public class boss1_ia : MonoBehaviour {
         explosionAnimator=explosion.GetComponent<Animator>();
         explosionAnimator.enabled = false;
         explosion.GetComponent<SpriteRenderer>().enabled=false;
-        gameManager = GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>();
+        //gameManager = GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>();
         slider.maxValue = healthPhase1 + healthPhase2 + healthPhase3;
         powerUpPoped = false;
         bulletFactory = GameObject.FindGameObjectWithTag("BulletFactory").GetComponent<bulletFactory>();
+        ennemyFactory = GameObject.FindGameObjectWithTag("EnnemyFactory").GetComponent<ennemyFactory>();
     }
 	
     void updateSlider () {
@@ -187,43 +190,43 @@ public class boss1_ia : MonoBehaviour {
                     
                     if (axe.z > 0) {
                         if (angle >= 0 && angle < 72) {
-                            bulletFactory.getBullet(BulletType.boss, shotspawn2.transform.position);
-                            bulletFactory.getBullet(BulletType.boss, shotspawn3.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn2.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn3.transform.position);
                             
                            
                         }
                         if (angle >= 72 && angle < 140) {
-                            bulletFactory.getBullet(BulletType.boss, shotspawn3.transform.position);
-                            bulletFactory.getBullet(BulletType.boss, shotspawn4.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn3.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn4.transform.position);
 
                             
                         }
                         if (angle >= 140) {
 
-                            bulletFactory.getBullet(BulletType.boss, shotspawn4.transform.position);
-                            bulletFactory.getBullet(BulletType.boss, shotspawn5.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn4.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn5.transform.position);
 
                             
                         }
                     } else if (axe.z < 0) {
                         if (angle >= 143) {
 
-                            bulletFactory.getBullet(BulletType.boss, shotspawn4.transform.position);
-                            bulletFactory.getBullet(BulletType.boss, shotspawn5.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn4.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn5.transform.position);
 
                             
                         }
                         if (angle < 143 && angle >= 72) {
-                            bulletFactory.getBullet(BulletType.boss, shotspawn5.transform.position);
-                            bulletFactory.getBullet(BulletType.boss, shotspawn1.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn5.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn1.transform.position);
 
 
                             
                         }
                         if (angle < 72 && angle >= 0) {
 
-                            bulletFactory.getBullet(BulletType.boss, shotspawn1.transform.position);
-                            bulletFactory.getBullet(BulletType.boss, shotspawn2.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn1.transform.position);
+                            bulletFactory.createBullet(BulletType.boss, shotspawn2.transform.position);
 
                         }
                     } 
@@ -265,9 +268,10 @@ public class boss1_ia : MonoBehaviour {
             } else {
                 timerShoot += Time.deltaTime;
                 if (timerShoot > waitShootPhase2) {
-
+                    ennemyFactory.createEnnemy();
+                    /*
                     Vector3 pos = gameManager.getSpawnEnnemyPosition();
-                    Instantiate(ennemy, pos, Quaternion.identity);
+                    Instantiate(ennemy, pos, Quaternion.identity);*/
 
                     timerShoot = 0f;
                 }
@@ -306,16 +310,18 @@ public class boss1_ia : MonoBehaviour {
                 timerShoot += Time.deltaTime;
                 if (timerShoot > waitShootPhase3) {
                     waitShootPhase3Count++;
-                    bulletFactory.getBullet(BulletType.boss, shotspawn1.transform.position);
-                    bulletFactory.getBullet(BulletType.boss, shotspawn2.transform.position);
-                    bulletFactory.getBullet(BulletType.boss, shotspawn3.transform.position);
-                    bulletFactory.getBullet(BulletType.boss, shotspawn4.transform.position);
-                    bulletFactory.getBullet(BulletType.boss, shotspawn5.transform.position);
+                    bulletFactory.createBullet(BulletType.boss, shotspawn1.transform.position);
+                    bulletFactory.createBullet(BulletType.boss, shotspawn2.transform.position);
+                    bulletFactory.createBullet(BulletType.boss, shotspawn3.transform.position);
+                    bulletFactory.createBullet(BulletType.boss, shotspawn4.transform.position);
+                    bulletFactory.createBullet(BulletType.boss, shotspawn5.transform.position);
                    
                     timerShoot = 0f;
                     if(waitShootPhase3Count>=5) {
+                        ennemyFactory.createEnnemy();
+                        /*
                         Vector3 pos = gameManager.getSpawnEnnemyPosition();
-                        Instantiate(ennemy, pos, Quaternion.identity);
+                        Instantiate(ennemy, pos, Quaternion.identity);*/
                         waitShootPhase3Count = 0;
                     }
                 }

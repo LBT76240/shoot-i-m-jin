@@ -24,7 +24,7 @@ public class gameManager : MonoBehaviour {
     float time;
     public float timeSpawnEnnemy;
     float timeSpawn;
-
+    public ennemyFactory ennemyFactory;
 
 
     public Vector3 getSpawnEnnemyPosition() {
@@ -132,9 +132,12 @@ public class gameManager : MonoBehaviour {
                 Instantiate(boss1, pos, Quaternion.identity);
             } else {
                 if(timeSpawn>timeSpawnEnnemy) {
+
+                    ennemyFactory.createEnnemy();
+                    /*
                     Vector3 pos = getSpawnEnnemyPosition();
-                    Instantiate(ennemy, pos, Quaternion.identity);
-                    
+                    Instantiate(ennemy, pos, Quaternion.identity);*/
+
                     timeSpawn = 0f;
                 }
             }

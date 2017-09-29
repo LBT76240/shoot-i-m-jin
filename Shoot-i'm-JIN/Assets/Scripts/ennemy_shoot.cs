@@ -18,11 +18,15 @@ public class ennemy_shoot : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        reset();
+
+    }
+
+    public void reset() {
         waitBetween = Random.Range(waitBetweenMin, waitBetweenMax);
         StartCoroutine(spawnShoot());
         ennemy_mover = gameObject.GetComponent<ennemy_mover>();
-        bulletFactory= GameObject.FindGameObjectWithTag("BulletFactory").GetComponent<bulletFactory>();
-
+        bulletFactory = GameObject.FindGameObjectWithTag("BulletFactory").GetComponent<bulletFactory>();
     }
 
     IEnumerator spawnShoot() {
@@ -31,7 +35,7 @@ public class ennemy_shoot : MonoBehaviour {
             if (!ennemy_mover.isDead()) {
 
                 
-                bulletFactory.getBullet(BulletType.ennemy, shotspawn.transform.position);
+                bulletFactory.createBullet(BulletType.ennemy, shotspawn.transform.position);
             }
             yield return new WaitForSeconds(waitBetween);
         }

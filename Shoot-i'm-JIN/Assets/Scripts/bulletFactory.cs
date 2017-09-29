@@ -59,7 +59,7 @@ public class bulletFactory : MonoBehaviour {
 
     }
 
-    public void getBullet(BulletType bulletType, Vector3 pos) {
+    public void createBullet(BulletType bulletType, Vector3 pos) {
         switch(bulletType) {
             case BulletType.ennemy:
                 if (listOfbulletEnnemy.Count == 0) {

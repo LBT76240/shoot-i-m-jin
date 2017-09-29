@@ -15,6 +15,11 @@ public class destroy_by_oob : MonoBehaviour {
                 other.gameObject.SetActive(false);
                 
                 other.gameObject.GetComponent<contact_by_shoot>().recycleBullet();
+            } else if (other.CompareTag("Ennemy")) {
+
+                other.gameObject.SetActive(false);
+                GameObject.FindGameObjectWithTag("EnnemyFactory").GetComponent<ennemyFactory>().addNonUsedEnnemy(other.gameObject);
+                
             } else {
                 Destroy(other.gameObject);
             }

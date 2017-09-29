@@ -23,6 +23,7 @@ TagManager:
   - powerUp
   - InputController
   - BulletFactory
+  - EnnemyFactory
   layers:
   - Default
   - TransparentFX

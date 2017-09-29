@@ -137,18 +137,18 @@ public class player_shoot : MonoBehaviour {
 
                     switch (selectedShot) {
                         case 1:
-                            bulletFactory.getBullet(BulletType.player1, shotspawn.transform.position);
+                            bulletFactory.createBullet(BulletType.player1, shotspawn.transform.position);
                             
                             decreaseEnergy(costShot1);
                             break;
                         case 2:
-                            bulletFactory.getBullet(BulletType.player2a, shotspawn.transform.position);
-                            bulletFactory.getBullet(BulletType.player2b, shotspawn.transform.position);
+                            bulletFactory.createBullet(BulletType.player2a, shotspawn.transform.position);
+                            bulletFactory.createBullet(BulletType.player2b, shotspawn.transform.position);
                             
                             decreaseEnergy(costShot2);
                             break;
                         default:
-                            bulletFactory.getBullet(BulletType.player3, shotspawn.transform.position);
+                            bulletFactory.createBullet(BulletType.player3, shotspawn.transform.position);
                             
                             decreaseEnergy(costShot3);
                             break;
