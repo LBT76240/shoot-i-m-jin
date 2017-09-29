@@ -51,6 +51,8 @@ public class boss1_ia : MonoBehaviour {
     public GameObject powerUp4;
     bool powerUpPoped;
 
+    bulletFactory bulletFactory;
+
     // Use this for initialization
     void Start () {
         if(cheat) {
@@ -68,6 +70,7 @@ public class boss1_ia : MonoBehaviour {
         gameManager = GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>();
         slider.maxValue = healthPhase1 + healthPhase2 + healthPhase3;
         powerUpPoped = false;
+        bulletFactory = GameObject.FindGameObjectWithTag("BulletFactory").GetComponent<bulletFactory>();
     }
 	
     void updateSlider () {
@@ -184,35 +187,51 @@ public class boss1_ia : MonoBehaviour {
                     
                     if (axe.z > 0) {
                         if (angle >= 0 && angle < 72) {
+                            bulletFactory.getBullet(BulletType.boss, shotspawn2.transform.position);
+                            bulletFactory.getBullet(BulletType.boss, shotspawn3.transform.position);
                             
-                            Instantiate(shoot, shotspawn2.transform.position, Quaternion.identity);
-                            Instantiate(shoot, shotspawn3.transform.position, Quaternion.identity);
+                            //Instantiate(shoot, shotspawn2.transform.position, Quaternion.identity);
+                            //Instantiate(shoot, shotspawn3.transform.position, Quaternion.identity);
                         }
                         if (angle >= 72 && angle < 140) {
-                            
-                            Instantiate(shoot, shotspawn3.transform.position, Quaternion.identity);
-                            Instantiate(shoot, shotspawn4.transform.position, Quaternion.identity);
+                            bulletFactory.getBullet(BulletType.boss, shotspawn3.transform.position);
+                            bulletFactory.getBullet(BulletType.boss, shotspawn4.transform.position);
+
+                            //Instantiate(shoot, shotspawn3.transform.position, Quaternion.identity);
+                            //Instantiate(shoot, shotspawn4.transform.position, Quaternion.identity);
                         }
                         if (angle >= 140) {
-                            
-                            Instantiate(shoot, shotspawn4.transform.position, Quaternion.identity);
-                            Instantiate(shoot, shotspawn5.transform.position, Quaternion.identity);
+
+                            bulletFactory.getBullet(BulletType.boss, shotspawn4.transform.position);
+                            bulletFactory.getBullet(BulletType.boss, shotspawn5.transform.position);
+
+                            //Instantiate(shoot, shotspawn4.transform.position, Quaternion.identity);
+                            //Instantiate(shoot, shotspawn5.transform.position, Quaternion.identity);
                         }
                     } else if (axe.z < 0) {
                         if (angle >= 143) {
-                            
-                            Instantiate(shoot, shotspawn4.transform.position, Quaternion.identity);
-                            Instantiate(shoot, shotspawn5.transform.position, Quaternion.identity);
+
+                            bulletFactory.getBullet(BulletType.boss, shotspawn4.transform.position);
+                            bulletFactory.getBullet(BulletType.boss, shotspawn5.transform.position);
+
+                            //Instantiate(shoot, shotspawn4.transform.position, Quaternion.identity);
+                            //Instantiate(shoot, shotspawn5.transform.position, Quaternion.identity);
                         }
                         if (angle < 143 && angle >= 72) {
-                            
-                            Instantiate(shoot, shotspawn5.transform.position, Quaternion.identity);
-                            Instantiate(shoot, shotspawn1.transform.position, Quaternion.identity);
+                            bulletFactory.getBullet(BulletType.boss, shotspawn5.transform.position);
+                            bulletFactory.getBullet(BulletType.boss, shotspawn1.transform.position);
+
+
+                            //Instantiate(shoot, shotspawn5.transform.position, Quaternion.identity);
+                            //Instantiate(shoot, shotspawn1.transform.position, Quaternion.identity);
                         }
                         if (angle < 72 && angle >= 0) {
-                            
-                            Instantiate(shoot, shotspawn1.transform.position, Quaternion.identity);
-                            Instantiate(shoot, shotspawn2.transform.position, Quaternion.identity);
+
+                            bulletFactory.getBullet(BulletType.boss, shotspawn1.transform.position);
+                            bulletFactory.getBullet(BulletType.boss, shotspawn2.transform.position);
+
+                            //Instantiate(shoot, shotspawn1.transform.position, Quaternion.identity);
+                            //Instantiate(shoot, shotspawn2.transform.position, Quaternion.identity);
                         }
                     } 
 
@@ -294,12 +313,18 @@ public class boss1_ia : MonoBehaviour {
                 timerShoot += Time.deltaTime;
                 if (timerShoot > waitShootPhase3) {
                     waitShootPhase3Count++;
+                    bulletFactory.getBullet(BulletType.boss, shotspawn1.transform.position);
+                    bulletFactory.getBullet(BulletType.boss, shotspawn2.transform.position);
+                    bulletFactory.getBullet(BulletType.boss, shotspawn3.transform.position);
+                    bulletFactory.getBullet(BulletType.boss, shotspawn4.transform.position);
+                    bulletFactory.getBullet(BulletType.boss, shotspawn5.transform.position);
+                    /*
                     Instantiate(shoot, shotspawn1.transform.position, Quaternion.identity);
                     Instantiate(shoot, shotspawn2.transform.position, Quaternion.identity);
                     Instantiate(shoot, shotspawn3.transform.position, Quaternion.identity);
                     Instantiate(shoot, shotspawn4.transform.position, Quaternion.identity);
                     Instantiate(shoot, shotspawn5.transform.position, Quaternion.identity);
-
+                    */
                     timerShoot = 0f;
                     if(waitShootPhase3Count>=5) {
                         Vector3 pos = gameManager.getSpawnEnnemyPosition();

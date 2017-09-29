@@ -5,6 +5,19 @@ using UnityEngine;
 public class destroy_by_oob : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D other) {
-        Destroy(other.gameObject);
+        if (other.gameObject.activeSelf) {
+            if (other.CompareTag("ennemy_shoot")) {
+                other.gameObject.SetActive(false);
+                //other.gameObject.GetComponent<shoot_movement>().setActive(true);
+                other.gameObject.GetComponent<contact_by_shoot>().recycleBullet();
+            } else if (other.CompareTag("player_shoot")) {
+               
+                other.gameObject.SetActive(false);
+                //other.gameObject.GetComponent<shoot_movement>().setActive(true);
+                other.gameObject.GetComponent<contact_by_shoot>().recycleBullet();
+            } else {
+                Destroy(other.gameObject);
+            }
+        }
     }
 }

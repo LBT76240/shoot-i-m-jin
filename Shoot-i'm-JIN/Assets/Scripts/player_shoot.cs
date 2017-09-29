@@ -34,6 +34,8 @@ public class player_shoot : MonoBehaviour {
 
     float timeSinceLastShoot = 0f;
 
+    bulletFactory bulletFactory;
+
     public void swapShot(bool swap) {
         if (player_Mover != null) {
             if (!player_Mover.isDead()) {
@@ -82,8 +84,8 @@ public class player_shoot : MonoBehaviour {
         tire_droit_selected.enabled = true;
         tire_diagonal_selected.enabled = false;
         tire_spirale_selected.enabled = false;
+        bulletFactory = GameObject.FindGameObjectWithTag("BulletFactory").GetComponent<bulletFactory>();
 
-        
     }
 
 
@@ -135,16 +137,20 @@ public class player_shoot : MonoBehaviour {
 
                     switch (selectedShot) {
                         case 1:
-                            Instantiate(shot1, shotspawn.transform.position, shotspawn.transform.rotation);
+                            bulletFactory.getBullet(BulletType.player1, shotspawn.transform.position);
+                            //Instantiate(shot1, shotspawn.transform.position, shotspawn.transform.rotation);
                             decreaseEnergy(costShot1);
                             break;
                         case 2:
-                            Instantiate(shot2a, shotspawn.transform.position, shotspawn.transform.rotation).transform.Rotate(Vector3.forward * 45);
-                            Instantiate(shot2b, shotspawn.transform.position, shotspawn.transform.rotation).transform.Rotate(Vector3.forward * -45);
+                            bulletFactory.getBullet(BulletType.player2a, shotspawn.transform.position);
+                            bulletFactory.getBullet(BulletType.player2b, shotspawn.transform.position);
+                            //Instantiate(shot2a, shotspawn.transform.position, shotspawn.transform.rotation).transform.Rotate(Vector3.forward * 45);
+                            //Instantiate(shot2b, shotspawn.transform.position, shotspawn.transform.rotation).transform.Rotate(Vector3.forward * -45);
                             decreaseEnergy(costShot2);
                             break;
                         default:
-                            Instantiate(shot3, shotspawn.transform.position, shotspawn.transform.rotation);
+                            bulletFactory.getBullet(BulletType.player3, shotspawn.transform.position);
+                            //Instantiate(shot3, shotspawn.transform.position, shotspawn.transform.rotation);
                             decreaseEnergy(costShot3);
                             break;
                     }

@@ -7,6 +7,8 @@ public class ennemy_shoot : MonoBehaviour {
     public GameObject shotspawn;
     public float waitFirst;
 
+    bulletFactory bulletFactory;
+
     ennemy_mover ennemy_mover;
 
     public float waitBetweenMin;
@@ -19,14 +21,17 @@ public class ennemy_shoot : MonoBehaviour {
         waitBetween = Random.Range(waitBetweenMin, waitBetweenMax);
         StartCoroutine(spawnShoot());
         ennemy_mover = gameObject.GetComponent<ennemy_mover>();
+        bulletFactory= GameObject.FindGameObjectWithTag("BulletFactory").GetComponent<bulletFactory>();
+
     }
 
     IEnumerator spawnShoot() {
         yield return new WaitForSeconds(waitFirst);
         while (true) {
             if (!ennemy_mover.isDead()) {
-                Instantiate(shoot, shotspawn.transform.position, Quaternion.identity);
-                
+
+                //Instantiate(shoot, shotspawn.transform.position, Quaternion.identity);
+                bulletFactory.getBullet(BulletType.ennemy, shotspawn.transform.position);
             }
             yield return new WaitForSeconds(waitBetween);
         }

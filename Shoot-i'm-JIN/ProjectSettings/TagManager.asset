@@ -22,6 +22,7 @@ TagManager:
   - dashImage
   - powerUp
   - InputController
+  - BulletFactory
   layers:
   - Default
   - TransparentFX
