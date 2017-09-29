@@ -3,19 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ennemy_mover : MonoBehaviour {
-
-    public float speed;
+    public int score;
+    public float maxspeed;
+    public float minspeed;
+    float speed;
     bool zigzag = false;
     bool zigzagUp = true;
     float timeZigzag = 0f;
     float timeZigzagMax = 0.5f;
+    public float health;
     bool dead = false;
     float startY;
     public GameObject explosion;
     private Animator explosionAnimator;
+    public Animator miniexplosionAnimator;
+
+    public GameObject powerUp1;
+    public GameObject powerUp2;
+    public GameObject powerUp3;
+    public GameObject powerUp4;
+
 
 
     void Start() {
+        speed = Random.Range(minspeed, maxspeed);
+        
         startY = gameObject.transform.position.y;
         if(Random.Range(0, 100) > 50) {
             zigzag = true;
@@ -25,13 +37,40 @@ public class ennemy_mover : MonoBehaviour {
         explosion.GetComponent<SpriteRenderer>().enabled = false;
 
     }
-    public void dealDamage(Vector3 pos) {
+    public void dealDamage(float damage, Vector3 pos) {
         if (!dead) {
-            explosion.GetComponent<SpriteRenderer>().enabled = true;
-            explosionAnimator.enabled = true;
-            dead = true;
+            if (gameObject.transform.position.x < 24.5) {
+                health -= damage;
+                if (gameObject.GetComponent<miniExplosionController>() != null) {
+                    StartCoroutine(gameObject.GetComponent<miniExplosionController>().launchAnimationDamage(pos));
+                }
+                if (health <= 0) {
+                    health = 0;
+
+                    die();
+                }
+            }
+
+            
         }
 
+    }
+
+    public void die() {
+        explosion.GetComponent<SpriteRenderer>().enabled = true;
+        explosionAnimator.enabled = true;
+        dead = true;
+        GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>().addScore(score);
+        int rng = Random.Range(0, 100);
+        if(rng<5) {
+            Instantiate(powerUp1, gameObject.transform.position, Quaternion.identity);
+        } else if (rng<10) {
+            Instantiate(powerUp2, gameObject.transform.position, Quaternion.identity);
+        } else if (rng < 15) {
+            Instantiate(powerUp3, gameObject.transform.position, Quaternion.identity);
+        } else if (rng < 20) {
+            Instantiate(powerUp4, gameObject.transform.position, Quaternion.identity);
+        }
     }
 
     public bool isDead() {
@@ -70,6 +109,7 @@ public class ennemy_mover : MonoBehaviour {
         } else {
             if (explosion.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f) {
                 GameObject.Destroy(gameObject);
+                
             } else if (explosion.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.3f) {
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
             }

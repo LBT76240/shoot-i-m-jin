@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 114363046367533518}
   - component: {fileID: 114284802150923270}
   - component: {fileID: 114870568418208968}
+  - component: {fileID: 114024950456968654}
   m_Layer: 0
   m_Name: boss1
   m_TagString: boss1
@@ -703,6 +704,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114024950456968654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925740843951940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4615fe48eec134c40aef8ce25778ab1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miniexplosionAnimator: {fileID: 95074921565108896, guid: d65aeb06008c74f49b1d638e836decbd,
+    type: 2}
 --- !u!114 &114262974850508184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -877,6 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c7e39cef27817c42833105bda4e5dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cheat: 0
   speed: 3
   zoneWait1X: 16
   zoneWait2Y: 5.5
@@ -884,11 +899,12 @@ MonoBehaviour:
   waitShootPhase1: 0.2
   waitShootPhase2: 1
   waitShootPhase3: 0.1
+  scorePhase1: 2000
+  scorePhase2: 3000
+  scorePhase3: 5000
   explosion: {fileID: 1930716167137446}
   slider: {fileID: 114552570533694528}
   sliderFillImage: {fileID: 114262974850508184}
-  miniexplosionAnimator: {fileID: 95074921565108896, guid: d65aeb06008c74f49b1d638e836decbd,
-    type: 2}
   shotspawn1: {fileID: 1175586141664704}
   shotspawn2: {fileID: 1058032629441904}
   shotspawn3: {fileID: 1430830802754610}
@@ -900,6 +916,10 @@ MonoBehaviour:
   healthPhase2: 1000
   healthPhase3: 1000
   shield: {fileID: 1151608376136978}
+  powerUp1: {fileID: 1260852858813032, guid: 99320d121ee0a964da8d3a071a9a3a9c, type: 2}
+  powerUp2: {fileID: 1344999933775510, guid: e5c82a78eadcf3a4e861d02f1f8054b9, type: 2}
+  powerUp3: {fileID: 1241258805340502, guid: 9ebeff8505733384bb2528a5ff6cd855, type: 2}
+  powerUp4: {fileID: 1350370817424564, guid: 0ec900f4e45d2e64aaf170e35042baa5, type: 2}
 --- !u!114 &114982431103811654
 MonoBehaviour:
   m_ObjectHideFlags: 1

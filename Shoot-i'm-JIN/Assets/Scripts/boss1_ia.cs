@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class boss1_ia : MonoBehaviour {
+    public bool cheat;
     public float speed;
     public float zoneWait1X;
     public float zoneWait2Y;
@@ -11,10 +12,14 @@ public class boss1_ia : MonoBehaviour {
     public float waitShootPhase1;
     public float waitShootPhase2;
     public float waitShootPhase3;
+    public int scorePhase1;
+    public int scorePhase2;
+    public int scorePhase3;
+    int waitShootPhase3Count;
     public GameObject explosion;
     public Slider slider;
     public Image sliderFillImage;
-    public Animator miniexplosionAnimator;
+    
     private Animator explosionAnimator;
 
     public GameObject shotspawn1;
@@ -40,15 +45,29 @@ public class boss1_ia : MonoBehaviour {
 
     float timerShoot = 0f;
 
+    public GameObject powerUp1;
+    public GameObject powerUp2;
+    public GameObject powerUp3;
+    public GameObject powerUp4;
+    bool powerUpPoped;
+
     // Use this for initialization
     void Start () {
-        shieldColor=shield.GetComponent<SpriteRenderer>().color;
+        if(cheat) {
+            speed = 100;
+            healthPhase1 = 1;
+            healthPhase2 = 1;
+            healthPhase3 = 1;
+
+        }
+        waitShootPhase3Count = 0;
+        shieldColor =shield.GetComponent<SpriteRenderer>().color;
         explosionAnimator=explosion.GetComponent<Animator>();
         explosionAnimator.enabled = false;
         explosion.GetComponent<SpriteRenderer>().enabled=false;
         gameManager = GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>();
         slider.maxValue = healthPhase1 + healthPhase2 + healthPhase3;
-
+        powerUpPoped = false;
     }
 	
     void updateSlider () {
@@ -65,7 +84,11 @@ public class boss1_ia : MonoBehaviour {
             if (!phase1ended) {
                 if (healthPhase1 > 0) {
                     healthPhase1 -= damage;
-                    StartCoroutine(launchAnimationDamage(pos));
+                    if(gameObject.GetComponent< miniExplosionController > ()!=null) {
+                        StartCoroutine(gameObject.GetComponent<miniExplosionController>().launchAnimationDamage(pos));
+                    }
+                    
+                    
                     if (healthPhase1 <= 0) {
                         healthPhase1 = 0;
                         switchPhase();
@@ -77,7 +100,9 @@ public class boss1_ia : MonoBehaviour {
             } else if (!phase2ended) {
                 if (healthPhase2 > 0) {
                     healthPhase2 -= damage;
-                    StartCoroutine(launchAnimationDamage(pos));
+                    if (gameObject.GetComponent<miniExplosionController>() != null) {
+                        StartCoroutine(gameObject.GetComponent<miniExplosionController>().launchAnimationDamage(pos));
+                    }
                     if (healthPhase2 <= 0) {
                         healthPhase2 = 0;
                         switchPhase();
@@ -87,7 +112,9 @@ public class boss1_ia : MonoBehaviour {
             } else if (!phase3ended) {
                 if (healthPhase3 > 0) {
                     healthPhase3 -= damage;
-                    StartCoroutine(launchAnimationDamage(pos));
+                    if (gameObject.GetComponent<miniExplosionController>() != null) {
+                        StartCoroutine(gameObject.GetComponent<miniExplosionController>().launchAnimationDamage(pos));
+                    }
                     if (healthPhase3 <= 0) {
                         healthPhase3 = 0;
                         switchPhase();
@@ -99,26 +126,7 @@ public class boss1_ia : MonoBehaviour {
         }
     }
 
-    IEnumerator launchAnimationDamage(Vector3 pos) {
-
-        Animator animator = Instantiate(miniexplosionAnimator, pos, Quaternion.identity).GetComponent<Animator>();
-        animator.gameObject.GetComponent<SpriteRenderer>().enabled = true;
-        
-        Vector3 newScale = animator.gameObject.transform.localScale;
-
-        newScale.x = 0.2f;
-        newScale.y = 0.2f;
-
-        animator.gameObject.transform.localScale = newScale;
-        animator.enabled = true;
-        
-        while(animator.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime <= 0.8f) {
-            yield return new WaitForSeconds(0.1f);
-            
-        }
-        
-        GameObject.Destroy(animator.gameObject);
-    }
+    
 
     public void switchPhase() {
         if(!phase1ended) {
@@ -126,11 +134,13 @@ public class boss1_ia : MonoBehaviour {
             phase2ended = false;
             phase3ended = false;
             invulnerability = true;
+            GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>().addScore(scorePhase1);
         } else if (!phase2ended) {
             phase1ended = true;
             phase2ended = true;
             phase3ended = false;
             invulnerability = true;
+            GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>().addScore(scorePhase2);
         } else if (!phase3ended) {
             phase1ended = true;
             phase2ended = true;
@@ -139,6 +149,7 @@ public class boss1_ia : MonoBehaviour {
             explosion.GetComponent<SpriteRenderer>().enabled = true;
             explosionAnimator.enabled = true;
             sliderFillImage.enabled = false;
+            GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>().addScore(scorePhase3);
 
 
         }
@@ -282,7 +293,7 @@ public class boss1_ia : MonoBehaviour {
             } else {
                 timerShoot += Time.deltaTime;
                 if (timerShoot > waitShootPhase3) {
-
+                    waitShootPhase3Count++;
                     Instantiate(shoot, shotspawn1.transform.position, Quaternion.identity);
                     Instantiate(shoot, shotspawn2.transform.position, Quaternion.identity);
                     Instantiate(shoot, shotspawn3.transform.position, Quaternion.identity);
@@ -290,9 +301,15 @@ public class boss1_ia : MonoBehaviour {
                     Instantiate(shoot, shotspawn5.transform.position, Quaternion.identity);
 
                     timerShoot = 0f;
+                    if(waitShootPhase3Count>=10) {
+                        Vector3 pos = gameManager.getSpawnEnnemyPosition();
+                        Instantiate(ennemy, pos, Quaternion.identity);
+                        waitShootPhase3Count = 0;
+                    }
                 }
                 
-                
+
+
             }
             
 
@@ -301,9 +318,17 @@ public class boss1_ia : MonoBehaviour {
 
 
             if (explosion.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f) {
+                GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>().endGame(true);
                 gameObject.GetComponent<destroy>().destroyObject();
             } else if(explosion.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.3f) {
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                if (!powerUpPoped) {
+                    Instantiate(powerUp1, gameObject.transform.position + Vector3.up, Quaternion.identity);
+                    Instantiate(powerUp2, gameObject.transform.position + Vector3.down, Quaternion.identity);
+                    Instantiate(powerUp3, gameObject.transform.position + Vector3.left, Quaternion.identity);
+                    Instantiate(powerUp4, gameObject.transform.position + Vector3.right, Quaternion.identity);
+                    powerUpPoped = true;
+                }
             }
         }
     }

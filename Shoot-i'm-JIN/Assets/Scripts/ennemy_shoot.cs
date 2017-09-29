@@ -9,10 +9,14 @@ public class ennemy_shoot : MonoBehaviour {
 
     ennemy_mover ennemy_mover;
 
-    public float waitBetween;
+    public float waitBetweenMin;
+    public float waitBetweenMax;
+
+    float waitBetween;
 
 	// Use this for initialization
 	void Start () {
+        waitBetween = Random.Range(waitBetweenMin, waitBetweenMax);
         StartCoroutine(spawnShoot());
         ennemy_mover = gameObject.GetComponent<ennemy_mover>();
     }

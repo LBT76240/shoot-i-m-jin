@@ -35,29 +35,31 @@ public class player_shoot : MonoBehaviour {
     float timeSinceLastShoot = 0f;
 
     public void swapShot(bool swap) {
-        if (!player_Mover.isDead()) {
-            if (swap) {
-                selectedShot++;
-                if (selectedShot > 3) {
-                    selectedShot = 1;
-                }
+        if (player_Mover != null) {
+            if (!player_Mover.isDead()) {
+                if (swap) {
+                    selectedShot++;
+                    if (selectedShot > 3) {
+                        selectedShot = 1;
+                    }
 
-                switch (selectedShot) {
-                    case 1:
-                        tire_droit_selected.enabled = true;
-                        tire_diagonal_selected.enabled = false;
-                        tire_spirale_selected.enabled = false;
-                        break;
-                    case 2:
-                        tire_droit_selected.enabled = false;
-                        tire_diagonal_selected.enabled = true;
-                        tire_spirale_selected.enabled = false;
-                        break;
-                    case 3:
-                        tire_droit_selected.enabled = false;
-                        tire_diagonal_selected.enabled = false;
-                        tire_spirale_selected.enabled = true;
-                        break;
+                    switch (selectedShot) {
+                        case 1:
+                            tire_droit_selected.enabled = true;
+                            tire_diagonal_selected.enabled = false;
+                            tire_spirale_selected.enabled = false;
+                            break;
+                        case 2:
+                            tire_droit_selected.enabled = false;
+                            tire_diagonal_selected.enabled = true;
+                            tire_spirale_selected.enabled = false;
+                            break;
+                        case 3:
+                            tire_droit_selected.enabled = false;
+                            tire_diagonal_selected.enabled = false;
+                            tire_spirale_selected.enabled = true;
+                            break;
+                    }
                 }
             }
         }
@@ -68,7 +70,7 @@ public class player_shoot : MonoBehaviour {
     }
 
     void Start() {
-
+        player_Mover = gameObject.GetComponent<player_mover>();
         slider = GameObject.FindWithTag("energy_slider").GetComponent<Slider>();
         sliderBackground = GameObject.FindWithTag("energy_slider_background").GetComponent<CanvasRenderer>();
         sliderFill = GameObject.FindWithTag("energy_slider_fill").GetComponent<CanvasRenderer>();
@@ -81,7 +83,7 @@ public class player_shoot : MonoBehaviour {
         tire_diagonal_selected.enabled = false;
         tire_spirale_selected.enabled = false;
 
-        player_Mover = gameObject.GetComponent<player_mover>();
+        
     }
 
 
@@ -100,6 +102,18 @@ public class player_shoot : MonoBehaviour {
     }
 
 
+    public void increaseEnergy(float value) {
+        if (!player_Mover.isDead()) {
+            energy += value;
+            if (energy >= 100) {
+                energy = 100;
+                canFire = true;
+                sliderBackground.SetColor(Color.white);
+                sliderFill.SetColor(Color.white);
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update() {
         if (!player_Mover.isDead()) {
@@ -107,16 +121,12 @@ public class player_shoot : MonoBehaviour {
 
             if (energy < 100 && timeSinceLastShoot > delayShoot) {
                 if (canFire) {
-                    energy += Time.deltaTime * energyPerSecond;
+                    increaseEnergy(Time.deltaTime * energyPerSecond);
                 } else {
-                    energy += Time.deltaTime * energyPerSecond * 0.75f;
+                    increaseEnergy(Time.deltaTime * energyPerSecond * 0.75f);
                 }
 
-                if (energy > 100) {
-                    canFire = true;
-                    sliderBackground.SetColor(Color.white);
-                    sliderFill.SetColor(Color.white);
-                }
+                
             }
 
 

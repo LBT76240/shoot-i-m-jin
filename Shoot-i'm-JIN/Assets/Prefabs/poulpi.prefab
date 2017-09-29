@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 114250342690146822}
   - component: {fileID: 114362079539907594}
   - component: {fileID: 60818403440552238}
+  - component: {fileID: 114051557360985014}
   m_Layer: 11
   m_Name: poulpi
   m_TagString: Ennemy
@@ -185,6 +186,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114051557360985014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1935378524865798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4615fe48eec134c40aef8ce25778ab1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miniexplosionAnimator: {fileID: 95074921565108896, guid: d65aeb06008c74f49b1d638e836decbd,
+    type: 2}
 --- !u!114 &114250342690146822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,8 +210,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6cdafc5b961c048b1d25fb689b5402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  score: 50
+  maxspeed: 6
+  minspeed: 10
+  health: 20
   explosion: {fileID: 1464033294865068}
+  miniexplosionAnimator: {fileID: 95074921565108896, guid: d65aeb06008c74f49b1d638e836decbd,
+    type: 2}
+  powerUp1: {fileID: 1260852858813032, guid: 99320d121ee0a964da8d3a071a9a3a9c, type: 2}
+  powerUp2: {fileID: 1344999933775510, guid: e5c82a78eadcf3a4e861d02f1f8054b9, type: 2}
+  powerUp3: {fileID: 1241258805340502, guid: 9ebeff8505733384bb2528a5ff6cd855, type: 2}
+  powerUp4: {fileID: 1350370817424564, guid: 0ec900f4e45d2e64aaf170e35042baa5, type: 2}
 --- !u!114 &114362079539907594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,7 +235,8 @@ MonoBehaviour:
   shoot: {fileID: 1528138533000352, guid: 4f482c3f83036464398bfa8375450909, type: 2}
   shotspawn: {fileID: 1820618983990536}
   waitFirst: 1
-  waitBetween: 2
+  waitBetweenMin: 1.5
+  waitBetweenMax: 3
 --- !u!212 &212510787762828080
 SpriteRenderer:
   m_ObjectHideFlags: 1

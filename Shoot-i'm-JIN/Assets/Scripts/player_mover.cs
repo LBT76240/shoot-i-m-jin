@@ -36,7 +36,10 @@ public class player_mover : MonoBehaviour {
     public SpriteRenderer playerShield;
     Image dashImage;
     float widthdashImage;
-    
+    bool isInvulnerableShield = false;
+    float invulnerabilityShield = 0f;
+    float invulnerabilityShieldDuration = 0f;
+
 
 
     void Start() {
@@ -45,6 +48,7 @@ public class player_mover : MonoBehaviour {
         isInvulnerableDash = false;
         invulnerabilityDash = 0;
         health = 3;
+        
         rb = GetComponent<Rigidbody2D>();
         explosionAnimator = explosion.GetComponent<Animator>();
         explosionAnimator.enabled = false;
@@ -56,14 +60,50 @@ public class player_mover : MonoBehaviour {
         RectTransform rectTransform = dashImage.transform as RectTransform;
         
         widthdashImage = rectTransform.sizeDelta.x;
-        life1.enabled = true;
-        life2.enabled = true;
-        life3.enabled = true;
+        updateLife();
 
     }
 
+
+    public void increaseLife(int life) {
+        if (!playerDead) {
+            
+            health += life;
+            if (health >= 3) {
+                health = 3;
+            }
+            
+            updateLife();
+        }
+    }
+
+    void updateLife() {
+        switch (health) {
+            case 0:
+                life1.enabled = false;
+                life2.enabled = false;
+                life3.enabled = false;
+                break;
+            case 1:
+                life1.enabled = true;
+                life2.enabled = false;
+                life3.enabled = false;
+                break;
+            case 2:
+                life1.enabled = true;
+                life2.enabled = true;
+                life3.enabled = false;
+                break;
+            case 3:
+                life1.enabled = true;
+                life2.enabled = true;
+                life3.enabled = true;
+                break;
+        }
+    }
+
     public void dealDamage (Vector3 pos) {
-        if (!playerDead && !isInvulnerable && !isInvulnerableDash) {
+        if (!playerDead && !isInvulnerable && !isInvulnerableDash && !isInvulnerableShield) {
             health -= 1;
             invulnerability = 0;
             isInvulnerable = true;
@@ -73,28 +113,7 @@ public class player_mover : MonoBehaviour {
                 explosionAnimator.enabled = true;
                 playerDead = true;
             }
-            switch(health) {
-                case 0:
-                    life1.enabled = false;
-                    life2.enabled = false;
-                    life3.enabled = false;
-                    break;
-                case 1:
-                    life1.enabled = true;
-                    life2.enabled = false;
-                    life3.enabled = false;
-                    break;
-                case 2:
-                    life1.enabled = true;
-                    life2.enabled = true;
-                    life3.enabled = false;
-                    break;
-                case 3:
-                    life1.enabled = true;
-                    life2.enabled = true;
-                    life3.enabled = true;
-                    break;
-            }
+            updateLife();
         }
 
     }
@@ -151,48 +170,56 @@ public class player_mover : MonoBehaviour {
         }
     }
 	
-	// Update is called once per frame
-	void FixedUpdate () {
+    public void invisibilityShieldActivation(float duration) {
+        invulnerabilityShield = 0;
+        isInvulnerableShield = true;
+        invulnerabilityShieldDuration = duration;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate () {
         if (!playerDead) {
-            
-            invulnerability += Time.deltaTime;
 
-            if(invulnerability>2f) {
-                isInvulnerable = false;
-                Color newColor = gameObject.GetComponent<SpriteRenderer>().color;
+            if (isInvulnerable) {
+                invulnerability += Time.deltaTime;
 
-                newColor.a = 1;
-                gameObject.GetComponent<SpriteRenderer>().color = newColor;
+                if (invulnerability > 2f) {
+                    isInvulnerable = false;
+                    Color newColor = gameObject.GetComponent<SpriteRenderer>().color;
 
-            } else {
-                if (isInvulnerable) {
+                    newColor.a = 1;
+                    gameObject.GetComponent<SpriteRenderer>().color = newColor;
+
+                } else {
+                    
                     Color newColor = gameObject.GetComponent<SpriteRenderer>().color;
 
                     newColor.a = Mathf.Repeat(invulnerability * 5, 1);
                     gameObject.GetComponent<SpriteRenderer>().color = newColor;
+                    
                 }
             }
+            if (isInvulnerableDash) {
+                invulnerabilityDash += Time.deltaTime;
 
-            invulnerabilityDash += Time.deltaTime;
+                if (invulnerabilityDash > 1f) {
+                    isInvulnerableDash = false;
 
-            if (invulnerabilityDash > 1f) {
-                isInvulnerableDash = false;
+                    Color newColor = playerShield.color;
 
-                Color newColor = playerShield.color;
+                    newColor.a = 0;
+                    playerShield.color = newColor;
+                } else {
 
-                newColor.a = 0;
-                playerShield.color = newColor;
-            } else {
-                if (isInvulnerableDash) {
                     if (invulnerabilityDash < 0.1f) {
                         Color newColor = playerShield.color;
 
-                        newColor.a = 10* invulnerabilityDash;
+                        newColor.a = 10 * invulnerabilityDash;
                         playerShield.color = newColor;
-                    } else if(invulnerabilityDash > 0.9f) {
+                    } else if (invulnerabilityDash > 0.9f) {
                         Color newColor = playerShield.color;
 
-                        newColor.a = (10- 10*invulnerabilityDash);
+                        newColor.a = (10 - 10 * invulnerabilityDash);
                         playerShield.color = newColor;
                     } else {
                         Color newColor = playerShield.color;
@@ -200,8 +227,41 @@ public class player_mover : MonoBehaviour {
                         newColor.a = 1;
                         playerShield.color = newColor;
                     }
-                } 
+                    
 
+                }
+            }
+            if (isInvulnerableShield) {
+                invulnerabilityShield += Time.deltaTime;
+
+                if (invulnerabilityShield > invulnerabilityShieldDuration) {
+                    isInvulnerableShield = false;
+
+                    Color newColor = playerShield.color;
+
+                    newColor.a = 0;
+                    playerShield.color = newColor;
+                } else {
+
+                    if (invulnerabilityShield < 0.1f) {
+                        Color newColor = playerShield.color;
+
+                        newColor.a = 10 * invulnerabilityShield;
+                        playerShield.color = newColor;
+                    } else if (invulnerabilityShield > (invulnerabilityShieldDuration-0.1f) ) {
+                        Color newColor = playerShield.color;
+
+                        newColor.a = 10*(invulnerabilityShieldDuration- invulnerabilityShield);
+                        playerShield.color = newColor;
+                    } else {
+                        Color newColor = playerShield.color;
+
+                        newColor.a = 1;
+                        playerShield.color = newColor;
+                    }
+
+
+                }
             }
 
 
@@ -265,6 +325,7 @@ public class player_mover : MonoBehaviour {
             );
         } else {
             if (explosion.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f) {
+                GameObject.FindGameObjectWithTag("gameManager").GetComponent<gameManager>().endGame(false);
                 GameObject.Destroy(gameObject);
             } else if (explosion.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.3f) {
                 gameObject.GetComponent<SpriteRenderer>().enabled = false;
