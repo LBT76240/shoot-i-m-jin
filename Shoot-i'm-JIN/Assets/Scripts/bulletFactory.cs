@@ -65,22 +65,22 @@ public class bulletFactory : MonoBehaviour {
                 if (listOfbulletEnnemy.Count == 0) {
                     Instantiate(bulletEnnemy, pos, Quaternion.identity);
                 } else {
-                    GameObject bullet = listOfbulletEnnemy[0];
+                    GameObject bullet = listOfbulletEnnemy[listOfbulletEnnemy.Count-1];
                     bullet.transform.position = pos;
                     bullet.SetActive(true);
                     
-                    listOfbulletEnnemy.RemoveAt(0);
+                    listOfbulletEnnemy.RemoveAt(listOfbulletEnnemy.Count - 1);
                 }
                 break;
             case BulletType.boss:
                 if (listOfbulletBoss.Count == 0) {
                     Instantiate(bulletBoss, pos, Quaternion.identity);
                 } else {
-                    GameObject bullet = listOfbulletBoss[0];
+                    GameObject bullet = listOfbulletBoss[listOfbulletBoss.Count-1];
                     bullet.transform.position = pos;
                     bullet.SetActive(true);
                     
-                    listOfbulletBoss.RemoveAt(0);
+                    listOfbulletBoss.RemoveAt(listOfbulletBoss.Count - 1);
 
                 }
                 break;
@@ -88,11 +88,11 @@ public class bulletFactory : MonoBehaviour {
                 if (listOfbulletPlayer1.Count == 0) {
                     Instantiate(bulletPlayer1, pos, Quaternion.identity);
                 } else {
-                    GameObject bullet = listOfbulletPlayer1[0];
+                    GameObject bullet = listOfbulletPlayer1[listOfbulletPlayer1.Count-1];
                     bullet.transform.position = pos;
                     bullet.SetActive(true);
                     
-                    listOfbulletPlayer1.RemoveAt(0);
+                    listOfbulletPlayer1.RemoveAt(listOfbulletPlayer1.Count-1);
                     
                 }
                 break;
@@ -100,33 +100,33 @@ public class bulletFactory : MonoBehaviour {
                 if (listOfbulletPlayer2a.Count == 0) {
                     Instantiate(bulletPlayer2a, pos, Quaternion.identity).transform.Rotate(Vector3.forward * 45);
                 } else {
-                    GameObject bullet = listOfbulletPlayer2a[0];
+                    GameObject bullet = listOfbulletPlayer2a[listOfbulletPlayer2a.Count-1];
                     bullet.transform.position = pos;
                     bullet.SetActive(true);
                     
-                    listOfbulletPlayer2a.RemoveAt(0);
+                    listOfbulletPlayer2a.RemoveAt(listOfbulletPlayer2a.Count-1);
                 }
                 break;
             case BulletType.player2b:
                 if (listOfbulletPlayer2b.Count == 0) {
                     Instantiate(bulletPlayer2b, pos, Quaternion.identity).transform.Rotate(Vector3.forward * -45);
                 } else {
-                    GameObject bullet = listOfbulletPlayer2b[0];
+                    GameObject bullet = listOfbulletPlayer2b[listOfbulletPlayer2b.Count-1];
                     bullet.transform.position = pos;
                     bullet.SetActive(true);
                     
-                    listOfbulletPlayer2b.RemoveAt(0);
+                    listOfbulletPlayer2b.RemoveAt(listOfbulletPlayer2b.Count-1);
                 }
                 break;
             case BulletType.player3:
                 if (listOfbulletPlayer3.Count == 0) {
                     Instantiate(bulletPlayer3, pos, Quaternion.identity);
                 } else {
-                    GameObject bullet = listOfbulletPlayer3[0];
+                    GameObject bullet = listOfbulletPlayer3[listOfbulletPlayer3.Count-1];
                     bullet.transform.position = pos;
                     bullet.SetActive(true);
                     
-                    listOfbulletPlayer3.RemoveAt(0);
+                    listOfbulletPlayer3.RemoveAt(listOfbulletPlayer3.Count-1);
                 }
                 break;
 
