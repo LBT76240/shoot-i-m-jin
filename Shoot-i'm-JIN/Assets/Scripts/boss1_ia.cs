@@ -301,7 +301,7 @@ public class boss1_ia : MonoBehaviour {
                     Instantiate(shoot, shotspawn5.transform.position, Quaternion.identity);
 
                     timerShoot = 0f;
-                    if(waitShootPhase3Count>=10) {
+                    if(waitShootPhase3Count>=5) {
                         Vector3 pos = gameManager.getSpawnEnnemyPosition();
                         Instantiate(ennemy, pos, Quaternion.identity);
                         waitShootPhase3Count = 0;
