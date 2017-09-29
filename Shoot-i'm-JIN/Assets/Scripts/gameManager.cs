@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,7 @@ public class gameManager : MonoBehaviour {
     public float timeSpawnEnnemy;
     float timeSpawn;
     public ennemyFactory ennemyFactory;
+    public TextAsset textAsset;
 
 
     public Vector3 getSpawnEnnemyPosition() {
@@ -119,6 +121,42 @@ public class gameManager : MonoBehaviour {
         score = 0;
         updateScoreText();
         firstPhasedEnded = false;
+
+
+
+        try {
+            configClass newconfigClass = XmlHelpers.DeserializeFromXML<configClass>(textAsset);
+            timeOverLimit = newconfigClass.timeOverLimit;
+            timePreBoss= newconfigClass.timePreBoss;
+            timeSpawnEnnemy= newconfigClass.timeSpawnEnnemy;
+            Debug.Log("Fichier de conf chargé");
+        } catch (System.Exception exception) {
+            Debug.LogError("Pas de fichier de conf" + exception);
+        }
+        
+
+        /*
+        configClass newconfigClass = new configClass();
+        newconfigClass.timeOverLimit = 0;
+        newconfigClass.timePreBoss = 0; 
+        newconfigClass.timeSpawnEnnemy=0;
+
+        newconfigClass.speed=0;
+        newconfigClass.zoneWait1X=0;
+        newconfigClass.zoneWait2Y=0;
+        newconfigClass.zoneWait3Y=0;
+        newconfigClass.waitShootPhase1=0;
+        newconfigClass.waitShootPhase2=0;
+        newconfigClass.waitShootPhase3=0;
+        newconfigClass.scorePhase1 = 0;
+        newconfigClass.scorePhase2 = 0;
+        newconfigClass.scorePhase3 = 0;
+        newconfigClass.healthPhase1 = 0;
+        newconfigClass.healthPhase2 = 0;
+        newconfigClass.healthPhase3 = 0;
+
+        XmlHelpers.SerializeToXML<configClass>("config.xml",newconfigClass);
+        print("XMLCreated");*/
     }
 
     void Update() {

@@ -218,6 +218,7 @@ MonoBehaviour:
   timePreBoss: 30
   timeSpawnEnnemy: 0.5
   ennemyFactory: {fileID: 687587977}
+  textAsset: {fileID: 4900000, guid: d5c58826808613347914592b8a2c997d, type: 3}
 --- !u!4 &294514536
 Transform:
   m_ObjectHideFlags: 0

@@ -920,6 +920,7 @@ MonoBehaviour:
   powerUp2: {fileID: 1344999933775510, guid: e5c82a78eadcf3a4e861d02f1f8054b9, type: 2}
   powerUp3: {fileID: 1241258805340502, guid: 9ebeff8505733384bb2528a5ff6cd855, type: 2}
   powerUp4: {fileID: 1350370817424564, guid: 0ec900f4e45d2e64aaf170e35042baa5, type: 2}
+  textAsset: {fileID: 4900000, guid: d5c58826808613347914592b8a2c997d, type: 3}
 --- !u!114 &114982431103811654
 MonoBehaviour:
   m_ObjectHideFlags: 1
